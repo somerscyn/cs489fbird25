@@ -1,6 +1,7 @@
 local Push = require "push"
 local Background = require "Background"
 local Bird = require "Bird" 
+local ObstacleCourse = require "ObstacleCourse"
 gameWidth = 640
 gameHeight = 480
 gameState = "play" 
@@ -15,7 +16,7 @@ function love.load()
 
     bg = Background()
     bird = Bird()
-
+    obsCourse = ObstacleCourse()
 end
 
 function love.resize(w,h)
@@ -25,13 +26,17 @@ end
 function love.update(dt)
     bg:update(dt)
     bird:update(dt)
+    obsCourse:update(dt)
 end
 
 function love.draw()
     Push:start()
     bg:drawBackground()
+    
+    obsCourse:draw()
 
     bg:drawForeground()
+
     bird:draw()
 
     Push:finish()
