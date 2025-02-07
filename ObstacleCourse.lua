@@ -35,4 +35,23 @@ function ObstacleCourse:draw()
     end
 end
 
+function ObstacleCourse:collision(bird)
+    for index,obs in pairs(self.arrayObs) do
+        if obs:collision(bird) then
+            return true
+        end --end if
+    end -- end for
+    return false
+end
+
+function ObstacleCourse:scoring(bird)
+    for index,obs in pairs(self.arrayObs) do
+        if obs.scored == false 
+            and obs.x+obs.width < bird.x then
+            bird.score = bird.score +1
+            obs.scored = true
+        end
+    end
+end
+
 return ObstacleCourse

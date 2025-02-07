@@ -13,6 +13,7 @@ function Bird:init()
     self.height = birdSprites[1]:getHeight()
     self.curSprite = 1
     self.timeLapsed = 0
+    self.score = 0
 
     self.fly = 0
     self.gravity = 2
@@ -34,11 +35,22 @@ function Bird:update(dt)
         self.speed = self.speed + self.gravity*dt
         self.y = self.y + self.speed 
     end
+
+    -- Boundary check and enforcement
+    if self.y < 0 then 
+        self.y = 0
+    elseif self.y >= gameHeight-70 then
+        self.y = gameHeight-70
+    end
     
 end
 
 function Bird:draw()
     love.graphics.draw(birdSprites[self.curSprite],self.x,self.y )
+
+    if debugFlag then
+        love.graphics.rectangle("line",self.x,self.y,self.width,self.height)
+    end
 end
 
 function Bird:flap()
