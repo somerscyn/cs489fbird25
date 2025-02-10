@@ -50,6 +50,7 @@ function ObstacleCourse:scoring(bird)
             and obs.x+obs.width < bird.x then
             bird.score = bird.score +1
             obs.scored = true
+            sounds["score"]:play()
         end
     end
 end

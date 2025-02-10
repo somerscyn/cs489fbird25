@@ -28,8 +28,8 @@ function love.load()
     sounds['score'] = love.audio.newSource("sounds/pickup_coin.wav","static")
     sounds['collision'] = love.audio.newSource("sounds/hit_hurt.wav","static")
     -- starts off music
-    --sounds['music']:setLooping(true)
-    --sounds['music']:play()
+    sounds['music']:setLooping(true)
+    sounds['music']:play()
 end
 
 function love.resize(w,h)
@@ -44,6 +44,7 @@ function love.update(dt)
 
         obsCourse:scoring(bird)
         if obsCourse:collision(bird) then
+            sounds["collision"]:play()
             gameState = "over"
         end
     end
@@ -99,6 +100,7 @@ function love.keypressed(key)
         love.event.quit()
     elseif key == "space" and gameState=="play" then
         bird:flap()
+        sounds["flap"]:play()
     elseif key == "return" and gameState~="play" then
         bird = Bird()
         obsCourse = ObstacleCourse()
