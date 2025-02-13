@@ -6,6 +6,7 @@ gameWidth = 640
 gameHeight = 480
 gameState = "start" 
 debugFlag = false
+highScore = 0
 
 function love.load()
     love.window.setTitle("CS489 Flappy Bird")
@@ -40,6 +41,11 @@ function love.update(dt)
     if gameState == "play" then
         bg:update(dt)
         bird:update(dt)
+        --checking to see if we need to update the high schore
+        -- comparing the score of the bird to the high schore
+        if bird.score > highScore then
+            highScore = bird.score
+        end
         obsCourse:update(dt)
 
         obsCourse:scoring(bird)
@@ -91,7 +97,8 @@ end
 function drawGameOverState()
     love.graphics.printf("Game Over", titleFont,0,100,gameWidth,"center")
     love.graphics.printf("Score "..bird.score, titleFont,0,140,gameWidth,"center")
-    love.graphics.printf("Press Enter to Play again or Esc to exit",0,190,gameWidth,"center")
+    love.graphics.printf("High Score "..highScore, titleFont, 0, 190, gameWidth, "center")
+    love.graphics.printf("Press Enter to Play again or Esc to exit",0,240,gameWidth,"center")
 
 end
 
@@ -107,5 +114,9 @@ function love.keypressed(key)
         gameState = "play"
     elseif key == "F2" or key=="tab" then
         debugFlag = not debugFlag
+    else if key == "p" then
+        -- pause the game
+        
+    end
     end
 end

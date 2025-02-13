@@ -4,9 +4,13 @@ local Obstacle = require "Obstacle"
 local ObstacleCourse = Class{}
 function ObstacleCourse:init()
     self.arrayObs = {}
-    self.arrayObs[1] = Obstacle()
+
+    local diffY = love.math.random(100,gameHeight-100)
+    self.arrayObs[1] = Obstacle(diffY)
 
     self.timeLapsed = 0
+
+    self.oldDiffY = diffY
 end
 
 function ObstacleCourse:update(dt)
@@ -18,8 +22,23 @@ function ObstacleCourse:update(dt)
     self.timeLapsed = self.timeLapsed+dt
     if self.timeLapsed >= 4 then
         self.timeLapsed = 0
-        local newObs = Obstacle()
+
+        -- code to control space of gaps relative to last one here
+        -- new pipe can only be 300 pixels higher or shorter than the last one
+        local minDiff = -300
+        local maxDiff = 300
+
+        -- find a random number between the min and max diff values 
+        newDiff = love.math.random(minDiff,maxDiff)
+
+        -- add the new diff (relative value) to the old y value, making a new one
+        local diffY = self.oldDiffY+newDiff
+
+        local newObs = Obstacle(diffY)
         table.insert( self.arrayObs, newObs )
+
+        --keeping old value so can use it for next spawn
+        self.oldDiffY = diffY
     end
     -- Remove obstacles that off-screen to the left
     if self.arrayObs[1].x < 0-self.arrayObs[1].width then
