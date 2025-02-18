@@ -23,17 +23,16 @@ function ObstacleCourse:update(dt)
     if self.timeLapsed >= 4 then
         self.timeLapsed = 0
 
-        -- code to control space of gaps relative to last one here
-        -- new pipe can only be 300 pixels higher or shorter than the last one
-        local minDiff = -300
-        local maxDiff = 300
+        -- while the new number is NOT 300 greater or smaller than the old number, try again
+        currDiffY = math.random(100,gameHeight-200)
 
-        -- find a random number between the min and max diff values 
-        newDiff = love.math.random(minDiff,maxDiff)
+        while (currDiffY >= oldDiffY+300) or (currDiffY <= oldDiffY - 300) do
+            currDiffY = math.random(100,gameHeight-200)
+        end
+        -- break out of loop when you get an acceptable value
+        diffY = currDiffY
 
-        -- add the new diff (relative value) to the old y value, making a new one
-        local diffY = self.oldDiffY+newDiff
-
+        -- line that actually spawns the obstacle given the parameters
         local newObs = Obstacle(diffY)
         table.insert( self.arrayObs, newObs )
 
